@@ -24,9 +24,9 @@ def tweets_chile():
     max_id_chile.close()
 
     if (since_id==''):
-        url= 'https://api.twitter.com/1.1/search/tweets.json?q=place%3A47a3cf27863714de&granularity=country&count=100&result_type=recent&include_entities=false'
+        url= 'https://api.twitter.com/1.1/search/tweets.json?q=place%3A47a3cf27863714de%2C%20%40metrodesantiago&granularity=country&count=100&result_type=recent&include_entities=false'
     else:
-        url='https://api.twitter.com/1.1/search/tweets.json?q=place%3A47a3cf27863714de&granularity=country&count=100&result_type=recent&include_entities=false&since_id='+since_id
+        url= 'https://api.twitter.com/1.1/search/tweets.json?q=place%3A47a3cf27863714de%2C%20%40metrodesantiago&granularity=country&count=100&result_type=recent&include_entities=false&since_id='+since_id
     
     print url
 
