@@ -14,6 +14,5 @@ def oauth_req(url, key, secret, http_method="GET", post_body='', http_headers=No
 home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json',
  '866749513096187904-J7oRHFNEbOlONVkVpEwVwfHhMPVtdgX', 'BAYSveXH9P8W7APdjtOrCcy89tMN2YwMHKeUkQYmKgwpw' )
 
-print "hola bonito :3"
 
 print home_timeline
