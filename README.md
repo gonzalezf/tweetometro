@@ -16,4 +16,4 @@ Luego ejecutar el script:
 
 > python twitter_streaming-jp.py
 
-El directorio tweets_chile_jp debe ser creado a mano antes de ejecutar el script.
+El directorio tweets_chile_jp debe existir antes de ejecutar el script.
