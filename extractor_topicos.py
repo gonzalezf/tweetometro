@@ -2,9 +2,13 @@ from time import time
 
 import pandas as pd
 import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+
+from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
-from sklearn.datasets import fetch_20newsgroups
+from sklearn.manifold import TSNE
+
+import matplotlib.pyplot as plt
+import matplotlib.colors as colors
 
 n_features = 50 # <--- tamano del vocabulario a construir. Se descartan del vocabulario aquellas palabras con bajo Tf-Idf (aquellas que estadisticamente aportan menos significado). Probar varios valores para ver que tan bien resulta la extraccion de topicos
 n_components = 7 # <--- Cantidad de Tópicos a definir por los algoritmos. Probar variar este valor.
@@ -122,4 +126,31 @@ for tuit in dataset.as_matrix():
 write_df = pd.DataFrame(filas, columns=nombres_columnas)
 with open('tweets_nyctsubway.csv', 'w', encoding='utf8') as f:
     write_df.to_csv(f, columns=nombres_columnas, sep=';', index=False)
-print('Asignados topicos a los tweets.')
+print('\nAsignados topicos a los tweets.')
+
+# t-SNE clustering
+print('\nClustering de tweets')
+tf_scaler = TfidfTransformer(use_idf=False)
+scaled_tf = tf_scaler.fit_transform(tf)
+topicos_muestra = []
+for tuit in list(np.unique(scaled_tf.toarray(), axis=0)):
+    topicos_muestra.append(topicos[  ])
+
+# Creacion de colores
+color_map = plt.get_cmap('gist_rainbow')
+topicos_unicos = np.unique(topicos_muestra)
+num_colores = len(topicos_unicos)
+colores_topicos = {}
+for i in range(topicos_unicos):
+    colores_topicos[topicos_unicos[i]] = color_map(1.*i/num_colores)
+
+# Definicion y entrenamiento
+tsne = TSNE(n_components=2, init='pca', random_state=0)
+t0 = time()
+tuits_tsne = tsne.fit_transform(scaled_tf)
+
+# Plotting
+plt.figure()
+for idx, cl in enumerate(np.unique(tuits_tsne, axis=0)):
+    plt.scatter(x=tuits_tsne[idx, 0], y=tuits_tsne[idx, 1], c=colores_topicos[topicos_unicos.index( topicos_muestra[idx] )])
+plt.show()
