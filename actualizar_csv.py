@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 import pandas as pd
 import re
@@ -71,8 +73,8 @@ for archivo_tuit in tweets_bruto:
 if len(tuits) > 0:
     write_df = pd.DataFrame(tuits, columns=['id','topico','fecha','comp','neg','neu','pos','texto'])
     if not os.path.isfile('tweets_nyctsubway.csv'):
-        write_df.to_csv('tweets_nyctsubway.csv', index=False)
+        write_df.to_csv('tweets_nyctsubway.csv', sep=';', index=False)
     else:
-        with open('tweets_nyctsubway.csv', 'a') as f:
-            write_df.to_csv(f, index=False, header=False)
+        with open('tweets_nyctsubway.csv', 'a', encoding='utf8') as f:
+            write_df.to_csv(f, sep=';', index=False, header=False)
 print('Agregados', nuevos_guardados, 'nuevos tweets al archivo tweets_nyctsubway.csv; ya se habian guardado', ya_guardados)

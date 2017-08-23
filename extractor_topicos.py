@@ -35,10 +35,9 @@ def topicos_tweets(documentos, feature_names, modelo):
         resultado.append(feature_names[indice_nombre_topico])
     return resultado
 
+dataset = pd.read_csv('tweets_nyctsubway.csv', sep=';', encoding ='latin1')
 
-dataset = pd.read_csv('tweets_nyctsubway.csv',encoding ='latin1').texto
-
-data_samples = np.unique(dataset.astype(str))
+data_samples = np.unique(dataset.texto.astype(str))
 n_samples = len(data_samples)
 print("done in %0.3fs." % (time() - t0))
 
@@ -103,7 +102,24 @@ tf_feature_names = tf_vectorizer.get_feature_names()
 print_top_words(lda, tf_feature_names, n_top_words)
 
 # Usar modelo 'lda' para asignar un topico a cada tweet en el archivo csv
-write_df = pd.Series(topicos_tweets(dataset.astype(str), tf_feature_names, lda))
+topicos = topicos_tweets(dataset.texto.astype(str), tf_feature_names, lda)
+filas = []
+i = 0
+nombres_columnas = ['id','topico','fecha','comp','neg','neu','pos','texto']
+for tuit in dataset.as_matrix():
+    filas.append([
+        tuit[0],
+        topicos[i], # <--- Topico de tweet
+        tuit[2],
+        tuit[3],
+        tuit[4],
+        tuit[5],
+        tuit[6],
+        tuit[7],
+    ])
+    i += 1
 
-with open('tweets_nyctsubway.csv', 'a', encoding='utf8') as f:
-    write_df.to_csv(f, columns=['topico'], index=False, header=False)
+write_df = pd.DataFrame(filas, columns=nombres_columnas)
+with open('tweets_nyctsubway.csv', 'w', encoding='utf8') as f:
+    write_df.to_csv(f, columns=nombres_columnas, sep=';', index=False)
+print('Asignados topicos a los tweets.')
