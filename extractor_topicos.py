@@ -19,11 +19,6 @@ def print_top_words(model, feature_names, n_top_words):
         print(message)
     print()
 
-# Load the 20 newsgroups dataset and vectorize it. We use a few heuristics
-# to filter out useless terms early on: the posts are stripped of headers,
-# footers and quoted replies, and common English words, words occurring in
-# only one document or in at least 95% of the documents are removed.
-
 print("Loading dataset...")
 t0 = time()
 
@@ -32,7 +27,7 @@ dataset = pd.read_csv('tweets_nyctsubway.csv',
                         encoding ='latin1',
                         names=['texto']).texto
 
-data_samples = np.unique(dataset[:n_samples].astype(str))
+data_samples = np.unique(dataset.astype(str))
 n_samples = len(data_samples)
 print("done in %0.3fs." % (time() - t0))
 
