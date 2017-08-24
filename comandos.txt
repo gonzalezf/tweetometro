@@ -1,3 +1,0 @@
-# Guardar tweets recolectados en vivo en un archivo (escribir en terminal):
-python twitter_streaming.py > nombrearchivo.txt
-
